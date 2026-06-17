@@ -35,7 +35,7 @@ public class UsuarioService {
         return new UsuarioResponseDTO(usuarioUpdated);
     }
 
-    public void DeleteUsuario(Long id){
+    public void deleteUsuario(Long id){
         repository.deleteById(id);
     }
 }

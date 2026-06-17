@@ -1,5 +1,6 @@
 package com.copa.demo.palpite;
 
+import com.copa.demo.usuario.UsuarioResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +13,10 @@ public class PalpiteService {
     @Autowired
     private PalpiteRepository repository;
 
-    public List<Palpite> getAllPalpites() {
-        return repository.findAll();
+    public List<PalpiteResponseDTO> getAllPalpites() {
+        return repository.findAll().stream()
+                .map(PalpiteResponseDTO::new)
+                .toList();
     }
 
     public Palpite createPalpite(PalpiteRequestDTO data) {

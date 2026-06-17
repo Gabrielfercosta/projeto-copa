@@ -33,6 +33,6 @@ public class UsuarioController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/{id}")
     public void deleteUsuario(@PathVariable Long id){
-        service.DeleteUsuario(id);
+        service.deleteUsuario(id);
     }
 }
