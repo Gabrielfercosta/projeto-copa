@@ -5,8 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.copa.demo.usuario.UsuarioResponseDTO;
-
 @RestController
 @RequestMapping("palpite")
 public class PalpiteController {
