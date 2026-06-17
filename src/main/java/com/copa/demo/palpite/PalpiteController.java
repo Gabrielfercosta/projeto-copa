@@ -1,29 +1,40 @@
 package com.copa.demo.palpite;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
-public class PalpiteController{
+import com.copa.demo.usuario.UsuarioResponseDTO;
+
+@RestController
+@RequestMapping("palpite")
+public class PalpiteController {
+
     @Autowired
-    private PalpiteRepository repository;
+    private PalpiteService service;
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    
-    public java.util.List<Palpite> getAll(){
-        return repository.findAll();
+    @GetMapping
+    public List<PalpiteResponseDTO> getAll() {
+        return service.getAllPalpites();
     }
 
-    public Palpite savePalpite(@RequestBody PalpiteRequestDTO data){
-        Palpite palpite = new Palpite();
-        palpite.setUsuario(data.usuario());
-        palpite.setJogoId(data.jogoId());
-        palpite.setPlacarTime1(data.placarTime1());
-        palpite.setPlacarTime2(data.placarTime2());
-        palpite.setCriadoEm(LocalDateTime.now());
-        return repository.save(palpite);
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping
+    public Palpite savePalpite(@RequestBody PalpiteRequestDTO data) {
+        return service.createPalpite(data);
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PutMapping("/{id}")
+    public Palpite updatePalpite(@RequestBody PalpiteRequestDTO data, @PathVariable Long id) {
+        return service.updatePalpite(id, data);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @DeleteMapping("/{id}")
+    public void deletePalpite(@PathVariable Long id) {
+        service.deletePalpite(id);
+    }
 }
