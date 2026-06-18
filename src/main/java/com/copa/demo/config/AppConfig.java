@@ -1,4 +1,4 @@
-package com.copa.demo.jogo;
+package com.copa.demo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
