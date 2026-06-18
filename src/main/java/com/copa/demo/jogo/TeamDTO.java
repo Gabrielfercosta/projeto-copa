@@ -1,5 +1,12 @@
 package com.copa.demo.jogo;
 
-public record TeamDTO (
-        String name
-){}
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class TeamDTO {
+    String name;
+}

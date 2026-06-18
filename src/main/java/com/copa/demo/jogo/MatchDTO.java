@@ -1,7 +1,20 @@
 package com.copa.demo.jogo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
-public record MatchDTO (
-        Long id, LocalDateTime utcDate, String status, String homeTeam, String awayTeam, int score
-){}
+@Getter
+@Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class MatchDTO
+{
+    Long id;
+    LocalDateTime utcDate;
+    String status;
+    TeamDTO homeTeam;
+    TeamDTO awayTeam;
+    ScoreDTO score;
+}

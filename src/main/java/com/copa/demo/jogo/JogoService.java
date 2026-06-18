@@ -20,18 +20,18 @@ public class JogoService {
     @Value("${football.api.key}")
     private String key;
 
-    public String buscarJogos(){
+    public APIResponseDTO buscarJogos(){
         HttpHeaders headers = new HttpHeaders();
         headers.set("X-Auth-Token", key);
         headers.set("Accept", "application/json");
         HttpEntity<Void> entity = new HttpEntity<>(headers);
         String endpoint = URL + "/competitions/WC/matches";
 
-        ResponseEntity<String> response = restTemplate.exchange(
+        ResponseEntity<APIResponseDTO> response = restTemplate.exchange(
                 endpoint,
                 HttpMethod.GET,
                 entity,
-                String.class
+                APIResponseDTO.class
         );
 
         return response.getBody();

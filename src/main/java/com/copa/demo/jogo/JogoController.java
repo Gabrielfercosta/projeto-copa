@@ -12,7 +12,7 @@ public class JogoController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
-    public String buscarJogos() {
+    public APIResponseDTO buscarJogos() {
         return service.buscarJogos();
     }
 }

@@ -1,4 +1,13 @@
 package com.copa.demo.jogo;
 
-public record FullTimeDTO (int home, int away){
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class FullTimeDTO {
+    Integer home;
+    Integer away;
 }
