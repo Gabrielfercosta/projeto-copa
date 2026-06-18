@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.persistence.*;
 
+import com.copa.demo.jogo.Jogo;
 import com.copa.demo.usuario.Usuario;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,7 +23,9 @@ public class Palpite{
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
-    private Long jogoId;
+    @ManyToOne
+    @JoinColumn(name = "jogo_id")
+    private Jogo jogo;
     private String time1;
     private String time2;
     private Integer placarTime1;

@@ -17,10 +17,11 @@ import java.time.LocalDateTime;
 public class Jogo {
     @Id    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long apiId;
     private String time1;
     private String time2;
     private Integer placarTime1;
     private Integer placarTime2;
-    private LocalDateTime dataHora;
+    private String dataHora;
     private String status;
 }
