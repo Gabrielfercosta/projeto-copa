@@ -14,8 +14,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
-@Setter
 @Service
 public class PalpiteService {
 
@@ -32,7 +30,7 @@ public class PalpiteService {
                 .toList();
     }
 
-    public Palpite createPalpite(PalpiteRequestDTO data) {
+    public PalpiteResponseDTO createPalpite(PalpiteRequestDTO data) {
         Usuario usuario = usuarioRepository.findById(data.usuario()).orElseThrow(() -> new RuntimeException("usuário não encontrado"));
         Jogo jogo = jogoRepository.findById(data.jogoId()).orElseThrow();
 
@@ -43,7 +41,8 @@ public class PalpiteService {
             palpite.setPlacarTime1(data.placarTime1());
             palpite.setPlacarTime2(data.placarTime2());
             palpite.setCriadoEm(LocalDateTime.now());
-            return palpiteRepository.save(palpite);
+            Palpite salvo = palpiteRepository.save(palpite);
+            return new PalpiteResponseDTO(salvo);
         }
 
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Jogo já começou, não é possível palpitar");
@@ -62,7 +61,8 @@ public class PalpiteService {
     }
 
     public void calcularPontos(Palpite palpite){
-        if(palpite.getPlacarTime1() == palpite.getJogo().getPlacarTime1() && palpite.getPlacarTime2() == palpite.getJogo().getPlacarTime2()){
+        if(palpite.getJogo().getPlacarTime1() == null) return;
+        if(palpite.getPlacarTime1().equals(palpite.getJogo().getPlacarTime1()) && palpite.getPlacarTime2().equals(palpite.getJogo().getPlacarTime2())){
             palpite.setPontos(3);
         }else if(palpite.getPlacarTime1() > palpite.getPlacarTime2() && palpite.getJogo().getPlacarTime1() > palpite.getJogo().getPlacarTime2()){
             palpite.setPontos(1);

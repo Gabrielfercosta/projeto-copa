@@ -17,5 +17,5 @@ spring:
 football:
   api:
     url: https://api.football-data.org/v4
-    key: 55d62ccd9b904e688519d023360145d1
+    key: ${FOOTBALL_API_KEY}
 

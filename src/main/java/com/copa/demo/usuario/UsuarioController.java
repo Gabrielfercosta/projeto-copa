@@ -7,30 +7,27 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("usuario")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UsuarioController {
 
     @Autowired
     private UsuarioService service;
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
     public List<UsuarioResponseDTO> getAll(){
         return service.getAllUsuarios();
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
     public UsuarioResponseDTO saveUsuario(@RequestBody UsuarioRequestDTO data){
         return service.createUsuario(data);
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/{id}")
     public UsuarioResponseDTO updateUsuario(@RequestBody UsuarioRequestDTO data, @PathVariable Long id){
         return service.updateUsuario(id, data);
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/{id}")
     public void deleteUsuario(@PathVariable Long id){
         service.deleteUsuario(id);

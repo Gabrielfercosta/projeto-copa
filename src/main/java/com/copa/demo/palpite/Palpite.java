@@ -26,8 +26,6 @@ public class Palpite{
     @ManyToOne
     @JoinColumn(name = "jogo_id")
     private Jogo jogo;
-    private String time1;
-    private String time2;
     private Integer placarTime1;
     private Integer placarTime2;
     private Integer pontos;

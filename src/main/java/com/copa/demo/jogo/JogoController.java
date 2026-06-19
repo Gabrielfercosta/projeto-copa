@@ -7,18 +7,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("jogo")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class JogoController {
 
     @Autowired
     private JogoService service;
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
     public List<Jogo> buscarJogos() {
         return service.listarJogos();
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/sincronizar")
     public void sincronizar(){
         service.sincronizarJogos();

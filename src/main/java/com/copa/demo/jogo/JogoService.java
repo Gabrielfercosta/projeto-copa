@@ -64,7 +64,9 @@ public class JogoService {
             if("FINISHED".equals(jogo.getStatus())){
                 List<Palpite> palpites = palpiteRepository.findByJogo(jogo);
                 for (Palpite palpite : palpites) {
-                    palpiteService.calcularPontos(palpite);
+                    if(palpite.getPontos() == null){
+                        palpiteService.calcularPontos(palpite);
+                    }
                 }
             }
         }
