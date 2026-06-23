@@ -1,7 +1,9 @@
 package com.copa.demo.usuario;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -38,4 +40,13 @@ public class UsuarioService {
     public void deleteUsuario(Long id){
         repository.deleteById(id);
     }
+
+    public UsuarioResponseDTO login(UsuarioRequestDTO data) {
+        Usuario usuario = repository.findByEmail(data.email());
+        if (usuario == null || !usuario.getSenha().equals(data.senha())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Email ou senha incorretos");
+        }
+        return new UsuarioResponseDTO(usuario);
+    }
+
 }

@@ -24,4 +24,6 @@ public class Jogo {
     private Integer placarTime2;
     private String dataHora;
     private String status;
+    private String crestTime1;
+    private String crestTime2;
 }

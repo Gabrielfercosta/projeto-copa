@@ -32,4 +32,9 @@ public class PalpiteController {
     public void deletePalpite(@PathVariable Long id) {
         service.deletePalpite(id);
     }
+
+    @GetMapping("/ranking")
+    public List<RankingDTO> getRanking(){
+        return service.mostrarRanking();
+    }
 }

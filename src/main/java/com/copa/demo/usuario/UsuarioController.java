@@ -32,4 +32,10 @@ public class UsuarioController {
     public void deleteUsuario(@PathVariable Long id){
         service.deleteUsuario(id);
     }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping("/login")
+    public UsuarioResponseDTO login(@RequestBody UsuarioRequestDTO data) {
+        return service.login(data);
+    }
 }

@@ -2,14 +2,14 @@ spring:
   application:
     name: demo
   datasource:
-    url: jdbc:h2:mem:testdb
+    url: jdbc:h2:file:./dados/copa
     driverClassName: org.h2.Driver
     username: sa
     password:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
   h2:
     console:
       enabled: true
@@ -17,5 +17,5 @@ spring:
 football:
   api:
     url: https://api.football-data.org/v4
-    key: ${FOOTBALL_API_KEY}
+    key: 55d62ccd9b904e688519d023360145d1
 

@@ -12,7 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PalpiteService {
@@ -33,8 +36,10 @@ public class PalpiteService {
     public PalpiteResponseDTO createPalpite(PalpiteRequestDTO data) {
         Usuario usuario = usuarioRepository.findById(data.usuario()).orElseThrow(() -> new RuntimeException("usuário não encontrado"));
         Jogo jogo = jogoRepository.findById(data.jogoId()).orElseThrow();
-
         if("TIMED".equals(jogo.getStatus())){
+            if (palpiteRepository.findByUsuarioAndJogo(usuario, jogo).isPresent()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Você ja palpitou nesse jogo");
+            }
             Palpite palpite = new Palpite();
             palpite.setUsuario(usuario);
             palpite.setJogo(jogo);
@@ -74,5 +79,9 @@ public class PalpiteService {
             palpite.setPontos(0);
         }
         palpiteRepository.save(palpite);
+    }
+
+    public List<RankingDTO> mostrarRanking(){
+        return palpiteRepository.getRanking();
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -49,6 +50,7 @@ public class JogoService {
         return response.getBody();
     }
 
+    @Scheduled(fixedRate = 60000)
     public void sincronizarJogos(){
         APIResponseDTO response = buscarJogos();
         for (MatchDTO match : response.getMatches()){
@@ -60,6 +62,8 @@ public class JogoService {
             jogo.setPlacarTime2(match.getScore().getFullTime().getAway());
             jogo.setDataHora(match.getUtcDate());
             jogo.setStatus(match.getStatus());
+            jogo.setCrestTime1(match.getHomeTeam().getCrest());
+            jogo.setCrestTime2(match.getAwayTeam().getCrest());
             repository.save(jogo);
             if("FINISHED".equals(jogo.getStatus())){
                 List<Palpite> palpites = palpiteRepository.findByJogo(jogo);

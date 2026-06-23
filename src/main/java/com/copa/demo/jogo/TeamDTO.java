@@ -9,4 +9,5 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TeamDTO {
     String name;
+    String crest;
 }
