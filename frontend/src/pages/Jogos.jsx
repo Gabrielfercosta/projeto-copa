@@ -17,7 +17,7 @@ function Jogos({ usuario }) {
             .then(data => {
                 const meus = {}
                 data.filter(p => p.usuario === usuario.id).forEach(p => {
-                    meus[p.jogoId] = { time1: p.placarTime1, time2: p.placarTime2 }
+                    meus[p.jogoId] = { id: p.id, time1: p.placarTime1, time2: p.placarTime2 }
                 })
                 setMeusPalpites(meus)
             })
@@ -60,7 +60,7 @@ function Jogos({ usuario }) {
             alert("O valor do placar não pode ser nulo");
             return;
         }
-        fetch(`https://bolao-copa-soft.up.railway.app/palpite/${jogoId}`, {
+        fetch(`https://bolao-copa-soft.up.railway.app/palpite/${meusPalpites[jogoId].id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -77,7 +77,7 @@ function Jogos({ usuario }) {
                     ...meusPalpites,
                     [jogoId]: { time1: palpites[jogoId].time1, time2: palpites[jogoId].time2 }
                 })
-                setEditando({ ...editando, [jogo.id]: false })
+                setEditando({ ...editando, [jogoId]: false })
             })
             .catch(err => alert("Erro ao atualizar palpite"))
     }
