@@ -138,7 +138,7 @@ function Jogos({ usuario }) {
                                 <div className="flex items-center gap-3">
                                     <input
                                         type="number"
-                                        className="w-12 h-12 text-center bg-[#0a1128] text-white text-xl font-bold rounded-lg border border-gray-700 focus:border-yellow-500 outline-none"
+                                        className="w-12 h-12 text-center bg-[#0a1128] text-white text-xl font-bold rounded-lg border border-gray-700 focus:border-yellow-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         placeholder="-"
                                         min="0"
                                         onInput={(e) => { if (e.target.value < 0) e.target.value = 0 }}
@@ -148,12 +148,11 @@ function Jogos({ usuario }) {
                                         })}
                                         value={palpites[jogo.id]?.time1 ?? meusPalpites[jogo.id]?.time1 ?? ''}
                                         disabled={jogo.status !== "TIMED" || (meusPalpites[jogo.id] !== undefined && !editando[jogo.id])}
-                                        class="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                     <span className="text-yellow-400 font-bold text-lg">x</span>
                                     <input
                                         type="number"
-                                        className="w-12 h-12 text-center bg-[#0a1128] text-white text-xl font-bold rounded-lg border border-gray-700 focus:border-yellow-500 outline-none"
+                                        className="w-12 h-12 text-center bg-[#0a1128] text-white text-xl font-bold rounded-lg border border-gray-700 focus:border-yellow-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         placeholder="-"
                                         min="0"
                                         onInput={(e) => { if (e.target.value < 0) e.target.value = 0 }}
@@ -163,7 +162,6 @@ function Jogos({ usuario }) {
                                         })}
                                         value={palpites[jogo.id]?.time2 ?? meusPalpites[jogo.id]?.time2 ?? ''}
                                         disabled={jogo.status !== "TIMED" || (meusPalpites[jogo.id] !== undefined && !editando[jogo.id])}
-                                        class="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                                 <div className="flex flex-col items-center gap-2 w-24">
