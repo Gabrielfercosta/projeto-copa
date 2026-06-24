@@ -64,7 +64,7 @@ function Login({ onLogin }) {
 
                     <button
                         onClick={modo === 'login' ? login : cadastrar}
-                        className="bg-green-600 hover:bg-green-500 text-white font-bold py-3 rounded transition"
+                        className="bg-green-600 hover:bg-green-500 text-white font-bold py-3 rounded transition "
                     >
                         {modo === 'login' ? 'Entrar' : 'Cadastrar'}
                     </button>

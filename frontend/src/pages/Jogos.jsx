@@ -4,6 +4,11 @@ function Jogos({ usuario }) {
     const [jogos, setJogos] = useState([])
     const [palpites, setPalpites] = useState([])
     const [meusPalpites, setMeusPalpites] = useState({})
+    const [valorSelecionado, setValorSelecionado] = useState('todos');
+
+    const handleChange = (event) => {
+        setValorSelecionado(event.target.value);
+    };
 
     useEffect(() => {
         fetch("http://localhost:8080/palpite")
@@ -49,74 +54,106 @@ function Jogos({ usuario }) {
             .catch(err => alert("Erro ao enviar palpite"))
     }
 
-
     return (
-        <div className="min-h-screen bg-gray-900 p-8">
-            <h1 className="text-3xl font-bold text-white text-center mb-8">Copa do Mundo</h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 max-w-6xl mx-auto">
-                {jogos.map(jogo => (
-                    <div key={jogo.id} className="bg-gray-800 rounded-lg p-4 border border-gray-700 hover:border-green-500 transition">
-                        <div className="text-white">
-                            {new Date(jogo.dataHora).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' })}
-                        </div>
-                        <div className="relative flex items-center justify-between min-h-[40px] gap-2">
-                            <span className="text-white font-medium text-sm w-24 text-left">{jogo.time1}</span>
-                            <img src={jogo.crestTime1} alt={jogo.time1} className="w-8 h-8" />
-                            <input
-                                type="number"
-                                className="w-10 h-8 text-center bg-gray-700 text-white rounded border border-gray-600 focus:border-green-500 outline-none z-10"
-                                placeholder="0"
-                                min="0"
-                                onInput={(e) => { if (e.target.value < 0) e.target.value = 0 }}
-                                onChange={(e) => setPalpites({
-                                    ...palpites,
-                                    [jogo.id]: { ...palpites[jogo.id], time1: e.target.value }
-                                })}
-                                value={palpites[jogo.id]?.time1 ?? meusPalpites[jogo.id]?.time1 ?? ''}
-                                disabled={jogo.status !== "TIMED" || meusPalpites[jogo.id] !== undefined}
-                            />
-                            <div className="bg-gray-900 px-3 py-1 rounded">
-                                <span className="text-green-400 font-bold">
-                                    {jogo.placarTime1 ?? '-'} x {jogo.placarTime2 ?? '-'}
+        <div className="min-h-screen bg-[#0a1128] p-8">
+            <div className="max-w-6xl mx-auto">
+                <h1 className="text-3xl font-bold text-white mb-2">| Palpites do Dia</h1>
+                <p className="text-gray-400 mb-6 ml-4">Acompanhe os jogos e garanta seus pontos.</p>
+
+                <div className="mb-6">
+                    <select
+                        value={valorSelecionado}
+                        onChange={handleChange}
+                        className="bg-[#131d3b] text-white px-4 py-2 rounded border border-gray-700 focus:border-yellow-500 outline-none cursor-pointer"
+                    >
+                        <option value="todos">Todos</option>
+                        <option value="encerrados">Encerrados</option>
+                        <option value="agendados">Agendados</option>
+                        <option value="ao vivo">Ao Vivo</option>
+                    </select>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {jogos.filter(jogo => {
+                        if (valorSelecionado === 'todos') return true
+                        if (valorSelecionado === 'encerrados') return jogo.status === 'FINISHED'
+                        if (valorSelecionado === 'agendados') return jogo.status === 'TIMED'
+                        if (valorSelecionado === 'ao vivo') return jogo.status === 'IN_PLAY'
+                    }).map(jogo => (
+                        <div key={jogo.id} className="bg-[#131d3b] rounded-xl p-5 border border-gray-800">
+                            <div className="flex items-center justify-between mb-4">
+                                <div className="flex items-center gap-2">
+                                    <span className="text-gray-400 text-sm">
+                                        {new Date(jogo.dataHora).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' })}
+                                    </span>
+                                </div>
+                                <span className={`text-xs px-2 py-1 rounded ${
+                                    jogo.status === 'FINISHED' ? 'bg-red-900/50 text-red-300' :
+                                        jogo.status === 'TIMED' ? 'bg-blue-900/50 text-blue-300' :
+                                            jogo.status === 'IN_PLAY' ? 'bg-green-900/50 text-green-300' :
+                                                'bg-gray-700 text-gray-300'
+                                }`}>
+                                    {jogo.status === 'FINISHED' ? 'Encerrado' :
+                                        jogo.status === 'TIMED' ? 'Agendado' :
+                                            jogo.status === 'IN_PLAY' ? 'Ao Vivo' :
+                                                jogo.status === 'PAUSED' ? 'Intervalo' :
+                                                jogo.status}
                                 </span>
                             </div>
-                            <input
-                                type="number"
-                                className="w-10 h-8 text-center bg-gray-700 text-white rounded border border-gray-600 focus:border-green-500 outline-none z-10"
-                                placeholder="0"
-                                min="0"
-                                onInput={(e) => { if (e.target.value < 0) e.target.value = 0 }}
-                                onChange={(e) => setPalpites({
-                                    ...palpites,
-                                    [jogo.id]: { ...palpites[jogo.id], time2: e.target.value }
-                                })}
-                                value={palpites[jogo.id]?.time2 ?? meusPalpites[jogo.id]?.time2 ?? ''}
-                                disabled={jogo.status !== "TIMED" || meusPalpites[jogo.id] !== undefined}
-                            />
-                            <img src={jogo.crestTime1} alt={jogo.time1} className="w-8 h-8" />
-                            <span className="text-white font-medium text-sm w-24 text-right">{jogo.time2}</span>
+
+                            <div className="flex items-center justify-between">
+                                <div className="flex flex-col items-center gap-2 w-24">
+                                    <img src={jogo.crestTime1} alt={jogo.time1} className="w-14 h-14" />
+                                    <span className="text-white font-bold text-xs text-center uppercase">{jogo.time1}</span>
+                                </div>
+
+                                <div className="flex items-center gap-3">
+                                    <input
+                                        type="number"
+                                        className="w-12 h-12 text-center bg-[#0a1128] text-white text-xl font-bold rounded-lg border border-gray-700 focus:border-yellow-500 outline-none"
+                                        placeholder="-"
+                                        min="0"
+                                        onInput={(e) => { if (e.target.value < 0) e.target.value = 0 }}
+                                        onChange={(e) => setPalpites({
+                                            ...palpites,
+                                            [jogo.id]: { ...palpites[jogo.id], time1: e.target.value }
+                                        })}
+                                        value={palpites[jogo.id]?.time1 ?? meusPalpites[jogo.id]?.time1 ?? ''}
+                                        disabled={jogo.status !== "TIMED" || meusPalpites[jogo.id] !== undefined}
+                                    />
+                                    <span className="text-yellow-400 font-bold text-lg">x</span>
+                                    <input
+                                        type="number"
+                                        className="w-12 h-12 text-center bg-[#0a1128] text-white text-xl font-bold rounded-lg border border-gray-700 focus:border-yellow-500 outline-none"
+                                        placeholder="-"
+                                        min="0"
+                                        onInput={(e) => { if (e.target.value < 0) e.target.value = 0 }}
+                                        onChange={(e) => setPalpites({
+                                            ...palpites,
+                                            [jogo.id]: { ...palpites[jogo.id], time2: e.target.value }
+                                        })}
+                                        value={palpites[jogo.id]?.time2 ?? meusPalpites[jogo.id]?.time2 ?? ''}
+                                        disabled={jogo.status !== "TIMED" || meusPalpites[jogo.id] !== undefined}
+                                    />
+                                </div>
+                                <div className="flex flex-col items-center gap-2 w-24">
+                                    <img src={jogo.crestTime2} alt={jogo.time2} className="w-14 h-14" />
+                                    <span className="text-white font-bold text-xs text-center uppercase">{jogo.time2}</span>
+                                </div>
+                            </div>
+                            <div className="mt-3 text-center">
+                                <span className="text-gray-400 text-sm">Placar: </span>
+                                <span className="text-yellow-400 font-bold">{jogo.placarTime1} x {jogo.placarTime2}</span>
+                            </div>
+                            <button onClick={() => enviarPalpite(jogo.id)}
+                                    className="mt-4 w-full bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-3 px-4 rounded-lg transition disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed cursor-pointer uppercase tracking-wide"
+                                    disabled={jogo.status !== "TIMED" || meusPalpites[jogo.id] !== undefined}>
+                                {jogo.status === 'FINISHED' ? 'Palpites Finalizados' :
+                                    meusPalpites[jogo.id] ? 'Palpite Salvo' : 'Salvar Palpite'}
+                            </button>
                         </div>
-                        <div className="mt-2 text-center">
-                            <span className={`text-xs px-2 py-1 rounded ${
-                                jogo.status === 'FINISHED' ? 'bg-red-900 text-red-300' :
-                                    jogo.status === 'TIMED' ? 'bg-blue-900 text-blue-300' :
-                                        jogo.status === 'IN_PLAY' ? 'bg-green-900 text-green-300' :
-                                            'bg-gray-700 text-gray-300'
-                            }`}>
-                                {jogo.status === 'FINISHED' ? 'Encerrado' :
-                                    jogo.status === 'TIMED' ? 'Agendado' :
-                                        jogo.status === 'IN_PLAY' ? 'Ao Vivo' :
-                                            jogo.status === 'LIVE' ? 'Ao Vivo' :
-                                                jogo.status}
-                            </span>
-                        </div>
-                        <button onClick={() => enviarPalpite(jogo.id)}
-                                className="mt-3 w-full bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded transition disabled:bg-gray-600 disabled:cursor-not-allowed"
-                                disabled={jogo.status !== "TIMED" || meusPalpites[jogo.id] !== undefined}>
-                            Enviar
-                        </button>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
         </div>
     )

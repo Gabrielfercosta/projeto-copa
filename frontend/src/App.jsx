@@ -4,6 +4,7 @@ import Login from './pages/Login'
 import Navbar from './components/Navbar'
 import Ranking from './pages/Ranking'
 import './App.css'
+import Regras from "./pages/Regras.jsx";
 
 function App() {
     const [usuario, setUsuario] = useState(() => {
@@ -31,6 +32,7 @@ function App() {
             <Navbar usuario={usuario} pagina={pagina} setPagina={setPagina} onLogout={handleLogout} />
             {pagina === 'jogos' && <Jogos usuario={usuario} />}
             {pagina === 'ranking' && <Ranking />}
+            {pagina === 'regras' && <Regras />}
         </div>
     )
 }
