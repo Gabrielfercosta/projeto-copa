@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 function Jogos({ usuario }) {
     const [jogos, setJogos] = useState([])
-    const [palpites, setPalpites] = useState([])
+    const [palpites, setPalpites] = useState({})
     const [meusPalpites, setMeusPalpites] = useState([])
     const [valorSelecionado, setValorSelecionado] = useState('todos');
     const [editando, setEditando] = useState({})
@@ -75,7 +75,7 @@ function Jogos({ usuario }) {
                 alert("Palpite atualizado")
                 setMeusPalpites({
                     ...meusPalpites,
-                    [jogoId]: { time1: palpites[jogoId].time1, time2: palpites[jogoId].time2 }
+                    [jogoId]: { id: meusPalpites[jogoId].id, time1: palpites[jogoId].time1, time2: palpites[jogoId].time2 }
                 })
                 setEditando({ ...editando, [jogoId]: false })
             })
