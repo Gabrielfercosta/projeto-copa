@@ -21,6 +21,15 @@ public class UsuarioService {
     }
 
     public UsuarioResponseDTO createUsuario(UsuarioRequestDTO data) {
+        if (data.nome() == null || data.nome().trim().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nome é obrigatório");
+        }
+        if (data.email() == null || data.email().trim().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email é obrigatório");
+        }
+        if (data.senha() == null || data.senha().trim().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Senha é obrigatória");
+        }
         if (repository.findByEmail(data.email()) != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email já cadastrado");
         }
@@ -29,9 +38,6 @@ public class UsuarioService {
         }
         if (!data.email().contains("@") || !data.email().contains(".")) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email inválido");
-        }
-        if (data.nome() == null || data.nome().trim().isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nome é obrigatório");
         }
         Usuario usuario = new Usuario(data);
         Usuario saved = repository.save(usuario);

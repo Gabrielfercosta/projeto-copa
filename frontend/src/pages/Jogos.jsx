@@ -131,7 +131,7 @@ function Jogos({ usuario }) {
 
                             <div className="flex items-center justify-between">
                                 <div className="flex flex-col items-center gap-2 w-24">
-                                    <img src={jogo.crestTime1} alt={jogo.time1} className="w-14 h-14" />
+                                    <img src={jogo.crestTime1} alt={jogo.time1} className="w-14 h-14 object-contain" />
                                     <span className="text-white font-bold text-xs text-center uppercase">{jogo.time1}</span>
                                 </div>
 
@@ -148,6 +148,7 @@ function Jogos({ usuario }) {
                                         })}
                                         value={palpites[jogo.id]?.time1 ?? meusPalpites[jogo.id]?.time1 ?? ''}
                                         disabled={jogo.status !== "TIMED" || (meusPalpites[jogo.id] !== undefined && !editando[jogo.id])}
+                                        class="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                     <span className="text-yellow-400 font-bold text-lg">x</span>
                                     <input
@@ -162,10 +163,11 @@ function Jogos({ usuario }) {
                                         })}
                                         value={palpites[jogo.id]?.time2 ?? meusPalpites[jogo.id]?.time2 ?? ''}
                                         disabled={jogo.status !== "TIMED" || (meusPalpites[jogo.id] !== undefined && !editando[jogo.id])}
+                                        class="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                                 <div className="flex flex-col items-center gap-2 w-24">
-                                    <img src={jogo.crestTime2} alt={jogo.time2} className="w-14 h-14" />
+                                    <img src={jogo.crestTime2} alt={jogo.time2} className="w-14 h-14 object-contain" />
                                     <span className="text-white font-bold text-xs text-center uppercase">{jogo.time2}</span>
                                 </div>
                             </div>
@@ -176,7 +178,7 @@ function Jogos({ usuario }) {
                             {meusPalpites[jogo.id] && jogo.status === 'TIMED' && !editando[jogo.id] ? (
                                 <button
                                     onClick={() => setEditando({ ...editando, [jogo.id]: true })}
-                                    className="mt-4 w-full bg-transparent border border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black font-bold py-2 px-4 rounded-lg transition cursor-pointer uppercase tracking-wide text-sm"
+                                    className="mt-4 w-full bg-transparent border border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black font-bold py-3 px-4 rounded-lg transition cursor-pointer uppercase tracking-wide text-sm"
                                 >
                                     Editar Palpite
                                 </button>
