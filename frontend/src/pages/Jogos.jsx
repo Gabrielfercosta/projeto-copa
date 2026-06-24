@@ -5,13 +5,14 @@ function Jogos({ usuario }) {
     const [palpites, setPalpites] = useState([])
     const [meusPalpites, setMeusPalpites] = useState({})
     const [valorSelecionado, setValorSelecionado] = useState('todos');
+    const [editando, setEditando] = useState({})
 
     const handleChange = (event) => {
         setValorSelecionado(event.target.value);
     };
 
     useEffect(() => {
-        fetch("http://localhost:8080/palpite")
+        fetch("https://bolao-copa-soft.up.railway.app/palpite")
             .then(res => res.json())
             .then(data => {
                 const meus = {}
@@ -23,7 +24,7 @@ function Jogos({ usuario }) {
     }, [])
 
     useEffect(() => {
-        fetch("http://localhost:8080/jogo")
+        fetch("https://bolao-copa-soft.up.railway.app/jogo")
             .then(response => response.json())
             .then(data => setJogos(data))
     }, [])
@@ -33,7 +34,7 @@ function Jogos({ usuario }) {
             alert("O valor do placar não pode ser nulo");
             return;
         }
-        fetch("http://localhost:8080/palpite", {
+        fetch("https://bolao-copa-soft.up.railway.app/palpite", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -52,6 +53,33 @@ function Jogos({ usuario }) {
                 })
             })
             .catch(err => alert("Erro ao enviar palpite"))
+    }
+
+    function atualizarPalpite(jogoId) {
+        if (!palpites[jogoId] || !palpites[jogoId].time1 || !palpites[jogoId].time2) {
+            alert("O valor do placar não pode ser nulo");
+            return;
+        }
+        fetch(`https://bolao-copa-soft.up.railway.app/palpite/${jogoId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                usuario: usuario.id,
+                jogoId: jogoId,
+                placarTime1: Number(palpites[jogoId].time1),
+                placarTime2: Number(palpites[jogoId].time2)
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                alert("Palpite atualizado")
+                setMeusPalpites({
+                    ...meusPalpites,
+                    [jogoId]: { time1: palpites[jogoId].time1, time2: palpites[jogoId].time2 }
+                })
+                setEditando({ ...editando, [jogo.id]: false })
+            })
+            .catch(err => alert("Erro ao atualizar palpite"))
     }
 
     return (
@@ -119,7 +147,7 @@ function Jogos({ usuario }) {
                                             [jogo.id]: { ...palpites[jogo.id], time1: e.target.value }
                                         })}
                                         value={palpites[jogo.id]?.time1 ?? meusPalpites[jogo.id]?.time1 ?? ''}
-                                        disabled={jogo.status !== "TIMED" || meusPalpites[jogo.id] !== undefined}
+                                        disabled={jogo.status !== "TIMED" || (meusPalpites[jogo.id] !== undefined && !editando[jogo.id])}
                                     />
                                     <span className="text-yellow-400 font-bold text-lg">x</span>
                                     <input
@@ -133,7 +161,7 @@ function Jogos({ usuario }) {
                                             [jogo.id]: { ...palpites[jogo.id], time2: e.target.value }
                                         })}
                                         value={palpites[jogo.id]?.time2 ?? meusPalpites[jogo.id]?.time2 ?? ''}
-                                        disabled={jogo.status !== "TIMED" || meusPalpites[jogo.id] !== undefined}
+                                        disabled={jogo.status !== "TIMED" || (meusPalpites[jogo.id] !== undefined && !editando[jogo.id])}
                                     />
                                 </div>
                                 <div className="flex flex-col items-center gap-2 w-24">
@@ -145,12 +173,24 @@ function Jogos({ usuario }) {
                                 <span className="text-gray-400 text-sm">Placar: </span>
                                 <span className="text-yellow-400 font-bold">{jogo.placarTime1} x {jogo.placarTime2}</span>
                             </div>
-                            <button onClick={() => enviarPalpite(jogo.id)}
+                            {meusPalpites[jogo.id] && jogo.status === 'TIMED' && !editando[jogo.id] ? (
+                                <button
+                                    onClick={() => setEditando({ ...editando, [jogo.id]: true })}
+                                    className="mt-4 w-full bg-transparent border border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black font-bold py-2 px-4 rounded-lg transition cursor-pointer uppercase tracking-wide text-sm"
+                                >
+                                    Editar Palpite
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={() => editando[jogo.id] ? atualizarPalpite(jogo.id) : enviarPalpite(jogo.id)}
                                     className="mt-4 w-full bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-3 px-4 rounded-lg transition disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed cursor-pointer uppercase tracking-wide"
-                                    disabled={jogo.status !== "TIMED" || meusPalpites[jogo.id] !== undefined}>
-                                {jogo.status === 'FINISHED' ? 'Palpites Finalizados' :
-                                    meusPalpites[jogo.id] ? 'Palpite Salvo' : 'Salvar Palpite'}
-                            </button>
+                                    disabled={jogo.status !== "TIMED" || (meusPalpites[jogo.id] !== undefined && !editando[jogo.id])}
+                                >
+                                    {jogo.status === 'FINISHED' ? 'Palpites Finalizados' :
+                                        editando[jogo.id] ? 'Atualizar Palpite' :
+                                            meusPalpites[jogo.id] ? 'Palpite Salvo' : 'Salvar Palpite'}
+                                </button>
+                            )}
                         </div>
                     ))}
                 </div>

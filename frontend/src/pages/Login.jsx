@@ -7,7 +7,7 @@ function Login({ onLogin }) {
     const [modo, setModo] = useState('login')
 
     function cadastrar() {
-        fetch("http://localhost:8080/usuario", {
+        fetch("https://bolao-copa-soft.up.railway.app/usuario", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ nome, email, senha })
@@ -19,7 +19,7 @@ function Login({ onLogin }) {
     }
 
     function login() {
-        fetch("http://localhost:8080/usuario/login", {
+        fetch("https://bolao-copa-soft.up.railway.app/usuario/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, senha })

@@ -4,7 +4,7 @@ function Ranking() {
     const [ranking, setRanking] = useState([])
 
     useEffect(() => {
-        fetch("http://localhost:8080/palpite/ranking")
+        fetch("https://bolao-copa-soft.up.railway.app/palpite/ranking")
             .then(res => res.json())
             .then(data => setRanking(data))
     }, [])
