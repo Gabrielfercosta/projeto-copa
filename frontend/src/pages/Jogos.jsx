@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 function Jogos({ usuario }) {
     const [jogos, setJogos] = useState([])
     const [palpites, setPalpites] = useState([])
-    const [meusPalpites, setMeusPalpites] = useState({})
+    const [meusPalpites, setMeusPalpites] = useState([])
     const [valorSelecionado, setValorSelecionado] = useState('todos');
     const [editando, setEditando] = useState({})
 

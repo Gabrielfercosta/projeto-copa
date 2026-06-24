@@ -4,18 +4,12 @@ import com.copa.demo.jogo.Jogo;
 import com.copa.demo.jogo.JogoRepository;
 import com.copa.demo.usuario.Usuario;
 import com.copa.demo.usuario.UsuarioRepository;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class PalpiteService {

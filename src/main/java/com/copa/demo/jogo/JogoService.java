@@ -2,7 +2,6 @@ package com.copa.demo.jogo;
 
 import com.copa.demo.palpite.Palpite;
 import com.copa.demo.palpite.PalpiteRepository;
-import com.copa.demo.palpite.PalpiteResponseDTO;
 import com.copa.demo.palpite.PalpiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
