@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("palpite")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "https://projeto-copa-fawn.vercel.app/", allowedHeaders = "*")
 public class PalpiteController {
 
     @Autowired
@@ -24,7 +24,7 @@ public class PalpiteController {
     }
 
     @PutMapping("/{id}")
-    public Palpite updatePalpite(@RequestBody PalpiteRequestDTO data, @PathVariable Long id) {
+    public PalpiteResponseDTO updatePalpite(@RequestBody PalpiteRequestDTO data, @PathVariable Long id) {
         return service.updatePalpite(id, data);
     }
 

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("usuario")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "https://projeto-copa-fawn.vercel.app/", allowedHeaders = "*")
 public class UsuarioController {
 
     @Autowired

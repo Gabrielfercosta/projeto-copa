@@ -21,6 +21,18 @@ public class UsuarioService {
     }
 
     public UsuarioResponseDTO createUsuario(UsuarioRequestDTO data) {
+        if (repository.findByEmail(data.email()) != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email já cadastrado");
+        }
+        if (data.senha().length() < 6) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Senha deve ter no mínimo 6 caracteres");
+        }
+        if (!data.email().contains("@") || !data.email().contains(".")) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email inválido");
+        }
+        if (data.nome() == null || data.nome().trim().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nome é obrigatório");
+        }
         Usuario usuario = new Usuario(data);
         Usuario saved = repository.save(usuario);
         return new UsuarioResponseDTO(saved);

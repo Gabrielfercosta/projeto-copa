@@ -12,11 +12,17 @@ function Login({ onLogin }) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ nome, email, senha })
         })
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) return res.json().then(err => { throw new Error(err.message) })
+                return res.json()
+            })
             .then(data => {
+                alert("Usuario cadastrado!")
                 onLogin(data)
             })
+            .catch(err => alert(err.message))
     }
+
 
     function login() {
         fetch("https://bolao-copa-soft.up.railway.app/usuario/login", {

@@ -53,12 +53,18 @@ public class PalpiteService {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Jogo já começou, não é possível palpitar");
     }
 
-    public Palpite updatePalpite(Long id, PalpiteRequestDTO data) {
+    public PalpiteResponseDTO updatePalpite(Long id, PalpiteRequestDTO data) {
         Palpite palpite = palpiteRepository.findById(id).orElseThrow(() -> new RuntimeException("Palpite não encontrado"));
+
+        if(!"TIMED".equals(palpite.getJogo().getStatus())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Jogo já começou, não é possível editar o palpite");
+        }
 
         palpite.setPlacarTime1(data.placarTime1());
         palpite.setPlacarTime2(data.placarTime2());
-        return palpiteRepository.save(palpite);
+
+        Palpite updated = palpiteRepository.save(palpite);
+        return new PalpiteResponseDTO(updated);
     }
 
     public void deletePalpite(Long id) {
