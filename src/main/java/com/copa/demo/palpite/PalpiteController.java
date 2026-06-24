@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("palpite")
-@CrossOrigin(origins = "https://projeto-copa-fawn.vercel.app/", allowedHeaders = "*")
+@CrossOrigin(origins = "https://projeto-copa-fawn.vercel.app", allowedHeaders = "*")
 public class PalpiteController {
 
     @Autowired

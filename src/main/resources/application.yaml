@@ -19,4 +19,7 @@ football:
     url: https://api.football-data.org/v4
     key: ${FOOTBALL_API_KEY}
 
+server:
+  error:
+    include-message: always
 
